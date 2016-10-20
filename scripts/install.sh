@@ -1,10 +1,5 @@
-cd '/home/ec2-user/Forecast'
-echo 'Activating virtualenv for Forecast Microservice' >> /var/log/sga-npcomplete-forecast-install.log
-pip install virtualenv >> /var/log/sga-npcomplete-forecast-install.log
-virtualenv venv >> /var/log/sga-npcomplete-forecast-install.log
-. venv/bin/activate >> /var/log/sga-npcomplete-forecast-install.log
-pip install requests
-pip install Flask >> /var/log/sga-npcomplete-forecast-install.log
-#echo 'Running Flask Server' >> /var/log/sga-npcomplete-flask-install.log
-export FLASK_APP=forecast.py
-flask run --host=0.0.0.0 --port=64000 >> /var/log/sga-npcomplete-forecast-server.log 2>&1 &
+echo 'starting installation process' >> /var/log/sga-npcomplete-forecast-decision-install.log
+cd '/home/ec2-user/docker'
+sudo docker login -e="kedar.gn20@gmail.com" -u="kedargn" -p="npcomplete"   #TODO : hide password
+sudo docker pull kedargn/forecast
+sudo docker run -d -p 65000:65000 --name forecast $(sudo docker images | grep kedargn/forecast | awk '{print $3}') >> ./log.txt
