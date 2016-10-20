@@ -1,3 +1,4 @@
-# echo 'killing existing flask process if any' >> /var/log/flask-before.log
-# ps -ef | grep Forecast/ | grep -v grep | awk '{print $2}' | xargs kill >> /var/log/flask-before.log
-# sleep 5
+sudo yum install -y docker-io
+sudo service docker start
+sudo docker ps -a | grep 'forecastrun' | awk '{print $1}' | xargs --no-run-if-empty docker stop
+sudo docker ps -a | grep 'forecastrun' | awk '{print $1}' | xargs --no-run-if-empty docker rm
