@@ -16,7 +16,7 @@ install:
   - docker build -t kedargn/forecastrun .
   - docker ps -a
   - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-  - docker push kedargn/forecast
+  - docker push kedargn/forecastrun
 
 script:
   - docker ps -a
