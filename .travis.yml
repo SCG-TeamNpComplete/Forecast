@@ -29,6 +29,7 @@ before_script:
 script: nosetests
 
 before_deploy:
+  - cd ..
   - zip -r SGA_Forecast.zip scripts appspec.yml || true
   - mkdir -p "dpl_cd_upload"
   - mv SGA_Forecast.zip dpl_cd_upload/SGA_Forecast.zip || true
