@@ -1,5 +1,3 @@
 sudo yum install -y docker-io
 sudo service docker start
 sudo docker rmi $(sudo docker images -f "dangling=true" -q)
-sudo docker ps -a | grep 'forecastrun' | awk '{print $1}' | xargs --no-run-if-empty docker stop
-sudo docker ps -a | grep 'forecastrun' | awk '{print $1}' | xargs --no-run-if-empty docker rm
