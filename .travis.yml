@@ -59,7 +59,7 @@ deploy:
     on:
       branch: milestone-3
 
- -  provider: codedeploy
+  - provider: codedeploy
     access_key_id: $AWS_ACCESS_KEY_TEST # declared in Travis repo settings
     secret_access_key: $AWS_SECRET_KEY_TEST
     bucket: sga-teamnpcomplete
