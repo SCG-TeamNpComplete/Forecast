@@ -23,13 +23,12 @@ before_script:
   - pip install requests
   - pip install nose
   - pip install Flask
-  - docker ps -a
+  - cd ..
 
 
 script: nosetests
 
 before_deploy:
-  - cd ..
   - zip -r SGA_Forecast.zip scripts appspec.yml || true
   - mkdir -p "dpl_cd_upload"
   - mv SGA_Forecast.zip dpl_cd_upload/SGA_Forecast.zip || true
@@ -60,8 +59,8 @@ deploy:
       branch: milestone-3
 
   - provider: codedeploy
-    access_key_id: $AWS_ACCESS_KEY # declared in Travis repo settings
-    secret_access_key: $AWS_SECRET_KEY
+    access_key_id: $AWS_ACCESS_KEY_TEST # declared in Travis repo settings
+    secret_access_key: $AWS_SECRET_KEY_TEST
     bucket: sga-teamnpcomplete
     key: SGA_Forecast.zip
     bundle_type: zip
