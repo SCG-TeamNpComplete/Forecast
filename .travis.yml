@@ -69,3 +69,15 @@ deploy:
     region: us-west-2
     on:
       branch: milestone-3
+
+  - provider: codedeploy
+    access_key_id: $AWS_ACCESS_KEY # declared in Travis repo settings
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: sga-teamnpcomplete
+    key: SGA_Forecast.zip
+    bundle_type: zip
+    application: TeamNPComplete3
+    deployment_group: TeamNPComplete3
+    region: us-east-2
+    on:
+      branch: milestone-3
