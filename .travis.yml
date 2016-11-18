@@ -90,6 +90,6 @@ deploy:
     bundle_type: zip
     application: TeamNpComplete3
     deployment_group: TeamNpComplete3
-    region: us-east-2
+    region: us-west-2
     on:
       branch: milestone-3
