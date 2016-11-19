@@ -7,11 +7,16 @@ from kazoo.client import KazooClient
 from kazoo.client import KazooState
 from kazoo.exceptions import KazooException
 import logging
+import uuid
+import calendar, datetime, time
+from datetime import datetime
 
 app = Flask(__name__)
-
+ec2Ip = requests.get("http://checkip.amazonaws.com/").text.split("\n")[0]
+#ec2Ip = "127.0.0.1"
 @app.route('/forecast/json', methods = ['POST'])  #test commit
 def forecast():
+  global ec2Ip
   result = ast.literal_eval(request.data)
   result["serviceId"] = "Forecast"
   kml_contents = ""
@@ -20,28 +25,31 @@ def forecast():
 
   result["text"] = "KML generated"	
   print result
-  r = requests.post("http://ec2-35-161-48-143.us-west-2.compute.amazonaws.com:8080/SG_MICROSERVICE_REGISTRY/gateway/message/saveData", data=json.dumps(result), headers=headers)  
+  r = requests.post("http://ec2-35-160-137-157.us-west-2.compute.amazonaws.com:8080/SG_MICROSERVICE_REGISTRY/gateway/message/saveData", data=json.dumps(result), headers=headers)  
   print r.status_code
   return jsonify(parsed_json)
 
 def createConnection():
-  zk = KazooClient(hosts='127.0.0.1:2181')
+  global ec2Ip
+  id = str(uuid.uuid4())
+  hostIp = ec2Ip+":2181"
+  zk = KazooClient(hosts=hostIp)
   zk.start()
   zk.add_listener(my_listener)
+  path = "http://"+ec2Ip+":64000/forecast/json"
   print "tryin to create node"
-  if zk.exists("/load-balancing-example"):
-    print "----> node already exists"
-  else:
-    #Change this to refect dynamic ip and path
-    zk.create("/my/favorite/node2",b"http://12.22.33.22:1209",ephemeral=True,makepath=True)
+  #zk.create("/load-balancing-example/forecast",hostIp,ephemeral=True,makepath=True)
+  zk.create("/load-balancing-example/forecast/"+id, json.dumps({'name': 'forecast', 'id': id, 'address': ec2Ip, 'port': 64000,'sslPort': None, 'payload': None,'registrationTimeUTC': (datetime.utcnow() - datetime.utcfromtimestamp(0)).total_seconds(),'serviceType': 'DYNAMIC',"uriSpec": {"parts": [{"value": path, "variable": False}]}}, ensure_ascii=True).encode(),ephemeral=True,makepath=True)
 
 def tearDown():
   zk.stop()
 
 def my_listener(state):
+  global ec2Ip
   if state == KazooState.LOST:
     # Register somewhere that the session was lost
-    zk = KazooClient(hosts='127.0.0.1:2181')
+    hostIp = ec2Ip+":2181"
+    zk = KazooClient(hosts=hostIp)
     zk.start()
 
   elif state == KazooState.SUSPENDED:
