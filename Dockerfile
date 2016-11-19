@@ -8,7 +8,11 @@ RUN pip install virtualenv
 RUN virtualenv venv
 RUN . venv/bin/activate
 RUN pip install requests
-RUN pip install flask 
+RUN pip install flask
+RUN pip install kazoo
+RUN pip install uuid
+RUN pip install datetime
+RUN pip install logging
 ENV FLASK_APP=forecast.py
 EXPOSE 64000
 CMD flask run --host=0.0.0.0 --port=64000
