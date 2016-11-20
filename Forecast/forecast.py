@@ -12,7 +12,7 @@ import calendar, datetime, time
 from datetime import datetime
 
 app = Flask(__name__)
-ec2Ip = requests.get("http://checkip.amazonaws.com/").text.split("\n")[0]
+ec2Ip=""
 #ec2Ip = "127.0.0.1"
 @app.route('/forecast/json', methods = ['POST'])  #test commit
 def forecast():
@@ -68,4 +68,10 @@ def connect():
     print "error "+e.message
   logging.basicConfig()
 
-connect()
+if __name__=='__main__':
+  ec2Ip = requests.get("http://checkip.amazonaws.com/").text.split("\n")[0]
+  print "global ec2Ip"+ec2Ip
+  connect()
+  app.run(debug=True, host = '0.0.0.0', port = 64000)
+
+

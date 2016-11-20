@@ -15,4 +15,4 @@ RUN pip install datetime
 RUN pip install logging
 ENV FLASK_APP=forecast.py
 EXPOSE 64000
-CMD flask run --host=0.0.0.0 --port=64000
+CMD python forecast.py
