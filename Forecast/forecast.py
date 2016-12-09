@@ -25,8 +25,8 @@ def forecast():
 
   result["text"] = "KML generated"	
   print result
-  r = requests.post("http://ec2-35-160-137-157.us-west-2.compute.amazonaws.com:8080/SG_MICROSERVICE_REGISTRY/gateway/message/saveData", data=json.dumps(result), headers=headers)  
-  print r.status_code
+  #r = requests.post("http://ec2-35-160-137-157.us-west-2.compute.amazonaws.com:8080/SG_MICROSERVICE_REGISTRY/gateway/message/saveData", data=json.dumps(result), headers=headers)  
+
   return jsonify(parsed_json)
 
 def createConnection():
